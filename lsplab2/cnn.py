@@ -270,13 +270,14 @@ class cnn(object):
                     x = x + layer.forward_pass(last_residual, deterministic=False)
                     last_residual = x
             else:
+                #print(x.shape,"cnn273")
                 x = layer.forward_pass(x, deterministic)
 
         return x
 
     def get_regularization_loss(self):
         l2_cost = tf.squeeze(tf.reduce_sum(
-            [layer.regularization_coefficient * tf.nn.l2_loss(layer.weights) for layer in self.layers
+            input_tensor=[layer.regularization_coefficient * tf.nn.l2_loss(layer.weights) for layer in self.layers
              if isinstance(layer, layers.fullyConnectedLayer)]))
 
         return l2_cost

@@ -1,0 +1,167 @@
+TensorFlow 2.0 Upgrade Script
+-----------------------------
+Converted 9 files
+Detected 14 issues that require attention
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+File: lsplab/biotools.py
+--------------------------------------------------------------------------------
+lsplab/biotools.py:281:33: ERROR: Using member tf.contrib.data.shuffle_and_repeat in deprecated module tf.contrib. tf.contrib.data.shuffle_and_repeat cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+--------------------------------------------------------------------------------
+File: lsplab/lstm.py
+--------------------------------------------------------------------------------
+lsplab/lstm.py:11:23: WARNING: Using member tf.contrib.cudnn_rnn.CudnnCompatibleLSTMCell in deprecated module tf.contrib.cudnn_rnn. (Manual edit required) tf.contrib.cudnn_rnn.* has been deprecated, and the CuDNN kernel has been integrated with tf.keras.layers.LSTM/GRU in TensorFlow 2.0. Please check the new API and use that instead.
+lsplab/lstm.py:11:23: ERROR: Using member tf.contrib.cudnn_rnn.CudnnCompatibleLSTMCell in deprecated module tf.contrib. tf.contrib.cudnn_rnn.CudnnCompatibleLSTMCell cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+--------------------------------------------------------------------------------
+File: lsplab/layers.py
+--------------------------------------------------------------------------------
+lsplab/layers.py:36:31: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+lsplab/layers.py:40:31: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+lsplab/layers.py:45:26: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+lsplab/layers.py:128:31: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+lsplab/layers.py:131:31: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+lsplab/layers.py:136:26: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+lsplab/layers.py:277:31: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+lsplab/layers.py:281:31: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+lsplab/layers.py:286:26: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+--------------------------------------------------------------------------------
+File: lsplab/lsplab.py
+--------------------------------------------------------------------------------
+lsplab/lsplab.py:234:17: ERROR: Using member tf.contrib.tensorboard.plugins.projector.ProjectorConfig in deprecated module tf.contrib. tf.contrib.tensorboard.plugins.projector.ProjectorConfig cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+lsplab/lsplab.py:244:8: ERROR: Using member tf.contrib.tensorboard.plugins.projector.visualize_embeddings in deprecated module tf.contrib. tf.contrib.tensorboard.plugins.projector.visualize_embeddings cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+================================================================================
+Detailed log follows:
+
+================================================================================
+================================================================================
+Input tree: 'lsplab/'
+================================================================================
+--------------------------------------------------------------------------------
+Processing file 'lsplab/plotter.py'
+ outputting to 'lsplab2/plotter.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'lsplab/stats.py'
+ outputting to 'lsplab2/stats.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'lsplab/reporter.py'
+ outputting to 'lsplab2/reporter.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'lsplab/cnn.py'
+ outputting to 'lsplab2/cnn.py'
+--------------------------------------------------------------------------------
+
+278:29: INFO: Added keywords to args of function 'tf.reduce_sum'
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'lsplab/biotools.py'
+ outputting to 'lsplab2/biotools.py'
+--------------------------------------------------------------------------------
+
+3:0: INFO: Not upgrading symbols because `tensorflow.compat.v1` was directly imported as `tf`.
+281:33: ERROR: Using member tf.contrib.data.shuffle_and_repeat in deprecated module tf.contrib. tf.contrib.data.shuffle_and_repeat cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'lsplab/lstm.py'
+ outputting to 'lsplab2/lstm.py'
+--------------------------------------------------------------------------------
+
+11:23: WARNING: Using member tf.contrib.cudnn_rnn.CudnnCompatibleLSTMCell in deprecated module tf.contrib.cudnn_rnn. (Manual edit required) tf.contrib.cudnn_rnn.* has been deprecated, and the CuDNN kernel has been integrated with tf.keras.layers.LSTM/GRU in TensorFlow 2.0. Please check the new API and use that instead.
+11:23: ERROR: Using member tf.contrib.cudnn_rnn.CudnnCompatibleLSTMCell in deprecated module tf.contrib. tf.contrib.cudnn_rnn.CudnnCompatibleLSTMCell cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+41:25: INFO: Renamed 'tf.contrib.rnn.static_rnn' to 'tf.compat.v1.nn.static_rnn'
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'lsplab/layers.py'
+ outputting to 'lsplab2/layers.py'
+--------------------------------------------------------------------------------
+
+36:31: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+36:31: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+38:59: INFO: Changing tf.contrib.layers xavier initializer to a tf.compat.v1.keras.initializers.VarianceScaling and converting arguments.
+
+40:31: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+40:31: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+42:59: INFO: tf.truncated_normal_initializer requires manual check. Initializers no longer have the dtype argument in the constructor or partition_info argument in the __call__ method.
+The calls have been converted to compat.v1 for safety (even though they may already have been correct).
+42:59: INFO: Renamed 'tf.truncated_normal_initializer' to 'tf.compat.v1.truncated_normal_initializer'
+45:26: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+45:26: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+47:54: INFO: tf.constant_initializer requires manual check. Initializers no longer have the dtype argument in the constructor or partition_info argument in the __call__ method.
+The calls have been converted to compat.v1 for safety (even though they may already have been correct).
+47:54: INFO: Renamed 'tf.constant_initializer' to 'tf.compat.v1.constant_initializer'
+58:22: INFO: Added keywords to args of function 'tf.nn.conv2d'
+58:22: INFO: Renamed keyword argument for tf.nn.conv2d from filter to filters
+96:19: INFO: Added keywords to args of function 'tf.nn.max_pool'
+96:19: INFO: Renamed keyword argument for tf.nn.max_pool from value to input
+96:19: INFO: Renamed 'tf.nn.max_pool' to 'tf.nn.max_pool2d'
+101:19: INFO: Added keywords to args of function 'tf.nn.avg_pool'
+101:19: INFO: Renamed keyword argument for tf.nn.avg_pool from value to input
+101:19: INFO: Renamed 'tf.nn.avg_pool' to 'tf.nn.avg_pool2d'
+128:31: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+128:31: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+129:59: INFO: Changing tf.contrib.layers xavier initializer to a tf.compat.v1.keras.initializers.VarianceScaling and converting arguments.
+
+131:31: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+131:31: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+133:59: INFO: tf.truncated_normal_initializer requires manual check. Initializers no longer have the dtype argument in the constructor or partition_info argument in the __call__ method.
+The calls have been converted to compat.v1 for safety (even though they may already have been correct).
+133:59: INFO: Renamed 'tf.truncated_normal_initializer' to 'tf.compat.v1.truncated_normal_initializer'
+136:26: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+136:26: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+138:54: INFO: tf.constant_initializer requires manual check. Initializers no longer have the dtype argument in the constructor or partition_info argument in the __call__ method.
+The calls have been converted to compat.v1 for safety (even though they may already have been correct).
+138:54: INFO: Renamed 'tf.constant_initializer' to 'tf.compat.v1.constant_initializer'
+188:19: INFO: Changing keep_prob arg of tf.nn.dropout to rate, and recomputing value.
+
+277:31: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+277:31: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+279:59: INFO: Changing tf.contrib.layers xavier initializer to a tf.compat.v1.keras.initializers.VarianceScaling and converting arguments.
+
+281:31: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+281:31: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+283:59: INFO: tf.truncated_normal_initializer requires manual check. Initializers no longer have the dtype argument in the constructor or partition_info argument in the __call__ method.
+The calls have been converted to compat.v1 for safety (even though they may already have been correct).
+283:59: INFO: Renamed 'tf.truncated_normal_initializer' to 'tf.compat.v1.truncated_normal_initializer'
+286:26: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+286:26: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+288:54: INFO: tf.constant_initializer requires manual check. Initializers no longer have the dtype argument in the constructor or partition_info argument in the __call__ method.
+The calls have been converted to compat.v1 for safety (even though they may already have been correct).
+288:54: INFO: Renamed 'tf.constant_initializer' to 'tf.compat.v1.constant_initializer'
+294:26: INFO: Added keywords to args of function 'tf.shape'
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'lsplab/timer.py'
+ outputting to 'lsplab2/timer.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'lsplab/lsplab.py'
+ outputting to 'lsplab2/lsplab.py'
+--------------------------------------------------------------------------------
+
+9:0: INFO: Not upgrading symbols because `tensorflow.compat.v1` was directly imported as `tf`.
+234:17: ERROR: Using member tf.contrib.tensorboard.plugins.projector.ProjectorConfig in deprecated module tf.contrib. tf.contrib.tensorboard.plugins.projector.ProjectorConfig cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+244:8: ERROR: Using member tf.contrib.tensorboard.plugins.projector.visualize_embeddings in deprecated module tf.contrib. tf.contrib.tensorboard.plugins.projector.visualize_embeddings cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+--------------------------------------------------------------------------------
+

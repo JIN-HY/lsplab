@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import tensorflow as tf
+tf.compat.v1.enable_eager_execution()
 import datetime
 from PIL import Image
 from tqdm import tqdm
@@ -15,7 +16,7 @@ import json
 num_encodings = 3
 queue_capacity = 100
 min_queue_size = 16
-angle_regex = '^VIS_SV_(\d+)_'
+angle_regex = '*/Vis_SV_(\d+)_'
 
 def __index_to_label__(index, gen_trans, chr_pos):
     chromosome = int(gen_trans.loci[index].name[chr_pos])
@@ -25,7 +26,7 @@ def __index_to_label__(index, gen_trans, chr_pos):
     return label
 
 
-def bgwas2tfrecords(index_file, images_directory, output_dir, tfrecord_filename, multi_angle=False, num_folds=5):
+def bgwas2tfrecords(index_file, images_directory, output_dir, tfrecord_filename, multi_angle=True, num_folds=5):
     """Convert a .bgwas index file and its accompanying image directory into .tfrecords (split into five folds)"""
     output_path = os.path.join(output_dir, tfrecord_filename)
 
@@ -35,118 +36,123 @@ def bgwas2tfrecords(index_file, images_directory, output_dir, tfrecord_filename,
     print("Reading .bgwas index file...")
 
     # Read metadata about samples from .bgwas file
-    labels = pd.read_csv(index_file, header=None).values
+#    labels = pd.read_csv(index_file, header=None).values
 
-    print("Assembling data...")
+#    print("Assembling data...")
 
     # Create a list of all images in the images directory
-    all_image_filenames = []
+#    all_image_filenames = []
 
-    for root, dirnames, filenames in os.walk(images_directory):
-        for filename in [filename for filename in filenames if filename.endswith('.png')]:
-            all_image_filenames.append(os.path.join(root, filename))
+#   for root, dirnames, filenames in os.walk(images_directory):
+#        for filename in [filename for filename in filenames if filename.endswith('.sml.png')]:
+#            all_image_filenames.append(os.path.join(root, filename))
 
     # Create sequences of images to write as records
-    print("Finding image sequences...")
+#    print("Finding image sequences...")
 
     # First sort labels into a dictionary of days present in the dataset
-    days_dict = {}
+#    days_dict = {}
 
-    for label in labels:
-        #day = datetime.datetime.strptime(label[2], timestamp_format).date()
-        day = label[2]
+#        else:
+#            days_dict[day] = [label]
 
-        if day in days_dict:
-            days_dict[day].append(label)
-        else:
-            days_dict[day] = [label]
-
-    print("Number of timepoints: {0}...".format(len(days_dict)))
-    print("Sorting images into sequences...")
+#    print("Number of timepoints: {0}...".format(len(days_dict)))
+#    print("Sorting images into sequences...")
 
     # Okay now step through the items in the first day
-    all_records = []
-    first_day = min(days_dict.keys())
-    primaries = days_dict[first_day]
+#    all_records = []
+#    first_day = min(days_dict.keys())
+#    primaries = days_dict[first_day]
 
     def search_for_filename(search_filename):
         for img_path in all_image_filenames:
-            if os.path.basename(img_path) == search_filename:
+            basename = os.path.basename(img_path)
+            upfolder = os.path.basename(os.path.dirname(img_path))
+            if f'{upfolder}/{basename}' == search_filename:
                 return img_path
 
         return None
 
-    for label in tqdm(primaries):
-        IID = label[1]
-        treatment = label[3]
-        image_filename = label[4]
+#    for label in tqdm(primaries):
+#        IID = label[1]
+#        treatment = label[3]
+#        image_filename = label[4]
 
-        if multi_angle:
-            image_angle = re.findall(angle_regex, image_filename)
+#        if multi_angle:
+#            image_angle = re.findall(angle_regex, image_filename)
 
-            if not image_angle:
+#            if not image_angle:
                 # This could be a top-view image, or can't find the angle from the filename.
-                continue
+#                continue
 
-            if isinstance(image_angle, list):
-                image_angle = image_angle[0]
+#            if isinstance(image_angle, list):
+#                image_angle = image_angle[0]
 
-        all_images = []
+#        all_images = []
 
         # Step through the days, looking for corresponding images through to the end date.
-        for key in sorted(days_dict.keys()):
-            records = days_dict[key]
-            found = False
-            stacked = False
+#        for key in sorted(days_dict.keys()):
+#            records = days_dict[key]
+#            found = False
+#            stacked = False
 
-            for record in records:
-                r_IID = record[1]
-                r_treatment = record[3]
-                r_fn = record[4]
+#            for record in records:
+#                r_IID = record[1]
+#                r_treatment = record[3]
+#                r_fn = record[4]
 
-                if r_fn.startswith('['):
-                    r_fn = json.loads(r_fn)
-                    stacked = True
+#                if r_fn.startswith('['):
+#                    r_fn = json.loads(r_fn)
+#                    stacked = True
 
-                if multi_angle:
-                    if ('_'+image_angle+'_' in r_fn) and (r_IID == IID) and (r_treatment == treatment):
+#                if multi_angle:
+#                    if ('_'+image_angle+'_' in r_fn) and (r_IID == IID) and (r_treatment == treatment):
                         # Got a hit, add it to the list
-                        found = True
-                        r_file_path = search_for_filename(r_fn)
-                        all_images.append(r_file_path)
-                        break
-                else:
-                    if (r_IID == IID) and (r_treatment == treatment):
+#                        found = True
+#                        r_file_path = search_for_filename(r_fn)
+#                        all_images.append(r_file_path)
+#                        break
+#                else:
+#                    if (r_IID == IID) and (r_treatment == treatment):
                         # Got a hit, add it to the list
-                        found = True
+#                        found = True
 
-                        if stacked:
-                            r_file_path = [search_for_filename(f) for f in r_fn]
-                        else:
-                            r_file_path = search_for_filename(r_fn)
+#                        if stacked:
+#                            r_file_path = [search_for_filename(f) for f in r_fn]
+#                        else:
+#                            r_file_path = search_for_filename(r_fn)
 
-                        all_images.append(r_file_path)
-                        break
+#                        all_images.append(r_file_path)
+#                        break
 
             # By default, just add a None value which we will detect later.
-            if not found:
-                all_images.append(None)
+#            if not found:
+#                all_images.append(None)
 
-        if not isinstance(label, list):
-            label = label.tolist()
+#        if not isinstance(label, list):
+#            label = label.tolist()
 
-        label.append(all_images)
-        all_records.append(label)
+#        label.append(all_images)
+#        all_records.append(label)
+    
+        
 
+    df = pd.read_csv("../sorghum_image/snapshot0907.csv")
+    machine = ['Vis_SV_0', 'Vis_SV_36', 'Vis_SV_72','Vis_SV_108','Vis_SV_144','Vis_SV_216', 'Vis_SV_252','Vis_SV_288','Vis_SV_324']
+    df['img']=[[f'../sorghum_image/{x}/{y}/0_0_0.png.sml.png' for y in machine] for x in df.d]
+#    df.img_date = [datetime.datetime.strptime(x, '%Y-%m-%d').timestamp() for x in df.img_date]
+#    df = df.sort_values(by="img_date")
+    all_records = df.values.tolist()
+    
     # Check for errors in all records:
     clean_records = []
 
     for record in all_records:
         ok = True
 
-        for i, image_path in enumerate(record[5]):
+        for i, image_path in enumerate(record[5]): #record[5]
             if image_path is None or (isinstance(image_path, list) and None in image_path):
-                print("No image at a timepoint {0} for record (ID {1})".format(i, record[1]))
+                print("No image at a timepoint {0} for record (ID {1})".format(i, record[0])) # record[1]
                 ok = False
                 break
 
@@ -155,7 +161,7 @@ def bgwas2tfrecords(index_file, images_directory, output_dir, tfrecord_filename,
 
     num_samples = len(clean_records)
 
-    all_IIDs = list(set([label[1] for label in clean_records]))
+    all_IIDs = list(set([label[0] for label in clean_records])) #record[1]
 
     # Shuffle IIDs to get a random assignment to folds
     np.random.shuffle(all_IIDs)
@@ -178,9 +184,9 @@ def bgwas2tfrecords(index_file, images_directory, output_dir, tfrecord_filename,
     _byte_feature = lambda v: tf.train.BytesList(value=[v])
 
     for i, label in tqdm(enumerate(clean_records)):
-        IID = int(label[1])
-        treatment = int(label[3])
-        all_record_images = label[5]
+        IID = int(label[0]) #label[1]
+        treatment = int(label[2][1:]) #label[3]
+        all_record_images = label[5] #label[5]
 
         feature_dict = {
             'id': tf.train.Feature(int64_list=_int_feature([IID])),
@@ -199,7 +205,8 @@ def bgwas2tfrecords(index_file, images_directory, output_dir, tfrecord_filename,
             else:
                 image_data = np.array(Image.open(image_path), dtype=np.uint8)
 
-            image_raw = image_data.tobytes()
+            #print(image_data.shape)
+            image_raw = image_data.tostring()
             feature_dict['image_data_{0}'.format(j)] = tf.train.Feature(bytes_list=_byte_feature(image_raw))
 
         example = tf.train.Example(features=tf.train.Features(feature=feature_dict))
@@ -231,17 +238,17 @@ def bgwas2tfrecords(index_file, images_directory, output_dir, tfrecord_filename,
 def read_tfrecords_dataset(filename, image_height, image_width, image_depth, num_timepoints, num_threads, cached=True, in_memory=False, mod=1):
     def parse_fn(example):
         features_dict = {
-            'id': tf.FixedLenFeature((), tf.int64),
-            'genotype': tf.VarLenFeature(tf.int64),
-            'treatment': tf.FixedLenFeature((), tf.int64)
+            'id': tf.io.FixedLenFeature((), tf.int64),
+            'genotype': tf.io.VarLenFeature(tf.int64),
+            'treatment': tf.io.FixedLenFeature((), tf.int64)
         }
 
         for i in range(0, num_timepoints, mod):
-            features_dict['image_data_{0}'.format(int(i/mod))] = tf.VarLenFeature(tf.string)
+            features_dict['image_data_{0}'.format(int(i/mod))] = tf.io.VarLenFeature(tf.string)
 
-        outputs = tf.parse_single_example(example, features=features_dict)
+        outputs = tf.io.parse_single_example(example, features=features_dict)
 
-        genotype = tf.cast(tf.sparse_tensor_to_dense(outputs['genotype']), tf.float32)
+        genotype = tf.cast(tf.compat.v1.sparse_tensor_to_dense(outputs['genotype']), tf.float32)
         id = tf.cast(outputs['id'], tf.int32)
         treatment = tf.cast(outputs['treatment'], tf.int32)
 
@@ -249,11 +256,12 @@ def read_tfrecords_dataset(filename, image_height, image_width, image_depth, num
 
         for i in range(int(num_timepoints / mod)):
             image_name = 'image_data_{0}'.format(i)
-            image = tf.decode_raw(tf.sparse_tensor_to_dense(outputs[image_name], default_value=''), tf.uint8)
+            image = tf.io.decode_raw(tf.compat.v1.sparse_tensor_to_dense(outputs[image_name], default_value=''), tf.uint8)
             image = tf.reshape(image, [image_height, image_width, image_depth])
             image = tf.image.convert_image_dtype(image, dtype=tf.float32)
 
             ret[image_name] = image
+            #print(image.shape)
 
         return ret
 
@@ -274,13 +282,14 @@ def read_tfrecords_dataset(filename, image_height, image_width, image_depth, num
 
 def get_sample_from_tfrecords_shuffled(filename, batch_size, image_height, image_width, image_depth, num_timepoints, queue_capacity, num_threads, cached=True, in_memory=False, mod=1):
     """Returns a batch from the specified .tfrecords file"""
-
+    #print(filename, batch_size, image_height, image_width, image_depth, num_timepoints, queue_capacity, num_threads)
     dataset, cache_file_path = read_tfrecords_dataset(filename, image_height, image_width, image_depth, num_timepoints, num_threads, cached, in_memory, mod)
 
-    dataset_shuf = dataset.apply(tf.contrib.data.shuffle_and_repeat(queue_capacity)).batch(batch_size=batch_size).prefetch(buffer_size=batch_size)
+    dataset_shuf = dataset.apply(tf.data.experimental.shuffle_and_repeat(queue_capacity)).batch(batch_size=batch_size).prefetch(buffer_size=batch_size)
 
-    iterator_shuf = dataset_shuf.make_initializable_iterator()
-    init_op_shuf = iterator_shuf.make_initializer(dataset_shuf)
+    iterator_shuf = tf.compat.v1.data.make_initializable_iterator(dataset_shuf)
+    print(iterator_shuf)
+    init_op_shuf = tf.compat.v1.data.Iterator.make_initializer(iterator_shuf, dataset_shuf) #, dataset_shuf)
 
     next_element_shuf = iterator_shuf.get_next()
 
@@ -294,8 +303,8 @@ def get_sample_from_tfrecords_inorder(filename, batch_size, image_height, image_
 
     dataset_inorder = dataset.repeat().batch(batch_size=batch_size).prefetch(buffer_size=batch_size)
 
-    iterator_inorder = dataset_inorder.make_initializable_iterator()
-    init_op_inorder = iterator_inorder.make_initializer(dataset_inorder)
+    iterator_inorder = iter(dataset_inorder)
+    init_op_inorder = tf.compat.v1.data.Iterator.make_initializer(iterator_inorder, dataset_inorder)
 
     next_element_inord = iterator_inorder.get_next()
 
@@ -385,7 +394,7 @@ def csv2ped(input_filename, output_file):
     df_map_out.to_csv(output_file+'.map', sep=output_delimiter, header=None, index=False, float_format='%.0f')
 
 
-def snapshot2bgwas(input_filename, output_filename, timestamp_format='%Y-%m-%d', prefix='VIS', not_before=None, stack=False):
+def snapshot2bgwas(input_filename, output_filename, timestamp_format='%Y-%m-%d', prefix='Vis', not_before=None, stack=False):
 #def snapshot2bgwas(input_filename, output_filename, barcode_regex='^([A-Za-z]+)+(\d+)(AA|AB)\d+$', timestamp_format='%Y-%m-%d %H:%M:%S.%f', prefix='VIS', not_before=None, stack=False, treatments={'AA': '0', 'AB': '1'}):
     """Converts a Lemnatec SnapshotInfo.csv file into a .bgwas file."""
     df_out = pd.DataFrame()
@@ -400,12 +409,12 @@ def snapshot2bgwas(input_filename, output_filename, timestamp_format='%Y-%m-%d',
             print('No images for this row, continuing...')
             continue
 
-
+        d = row['d']
         treatment = row['trt']
         genotype = row['genotype']
         ind = row['plantnumber']
         barcode = f'{genotype}_{ind}_{treatment}'
-        timestamp = datetime.datetime.strptime(row['img_date'], timestamp_format)
+        timestamp = datetime.datetime.strptime(row['img_date'], timestamp_format).timestamp()
         image_filenames = row['title']
         
 
@@ -418,7 +427,7 @@ def snapshot2bgwas(input_filename, output_filename, timestamp_format='%Y-%m-%d',
 
         # Stack all images into an array
         if stack:
-            cleaned = [image + '/0_0_0.png.sml.png' for image in all_images if image and image.startswith(prefix)]
+            cleaned = [d + '/' + image + '/0_0_0.png.sml.png' for image in all_images if image and image.startswith(prefix)]
 
             if len(cleaned) > 0:
                 if barcode in list(bc_dict.keys()):
@@ -428,13 +437,13 @@ def snapshot2bgwas(input_filename, output_filename, timestamp_format='%Y-%m-%d',
         else:
             for image in all_images:
                 if image and image.startswith(prefix):
-                    image = image + '/0_0_0.png.sml.png'
+                    image = d + '/' + image + '/0_0_0.png.sml.png'
                     print(('Processing entry for image %s...' % image))
 
                     if barcode in list(bc_dict.keys()):
-                        bc_dict[barcode].append(image)
+                        bc_dict[barcode].append((timestamp,image))
                     else:
-                        bc_dict[barcode] = [image]
+                        bc_dict[barcode] = [(timestamp,image)]
 
     min_image_count = min([len(images) for (_, images) in list(bc_dict.items())])
 
@@ -452,17 +461,17 @@ def snapshot2bgwas(input_filename, output_filename, timestamp_format='%Y-%m-%d',
  #           matches = matches[0]
 
         matches = barcode.split('_')
-        RIL = matches[0] + "-" + matches[1]
+        RIL = matches[1]
         treatment = matches[2]
-
+        
  #       images = images[:min_image_count]
 
         # Write a new row for each image
         for j, image in enumerate(images):
             if stack:
-                row = [uid, RIL, j, treatment, json.dumps(image).strip('"')]
+                row = [uid, RIL, image[0], treatment, json.dumps(image[1]).strip('"')]
             else:
-                row = [uid, RIL, j, treatment, image]
+                row = [uid, RIL, image[0], treatment, image[1]]
 
             df_out = df_out.append(pd.DataFrame(row).T)
             uid += 1
